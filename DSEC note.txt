@@ -1,0 +1,85 @@
+# event simulator
+event simulator.
+imageToVideo.cpp: read images from folder, then save as video.
+
+### conda install
+```
+$ sudo apt install curl
+$ curl -O https://repo.anaconda.com/archive/Anaconda3-2024.02-1-Linux-x86_64.sh
+$ sha256sum Anaconda3-2024.02-1-Linux-x86_64.sh     #查看檢查碼是否與Anaconda官網中檢查碼相符
+$ bash Anaconda3-2024.02-1-Linux-x86_64.sh          #使用bash指令執行Anaconda安裝檔
+$ conda config --set auto_activate_base False
+$ source ~/.bashrc
+```
+```
+$ conda install -y conda-forge::h5py
+$ conda install -y conda-forge::blosc-hdf5-plugin
+$ conda install -y conda-forge::opencv
+$ conda install -y conda-forge::scikit-video
+$ conda install -y conda-forge::tqdm
+$ conda install -y conda-forge::prettytable
+$ conda install -y conda-forge::imageio
+```
+according to DSEC/Data_Format/Event_Rectification, event file(.h5) can be transfer to video
+```
+$ conda activate dsec   #enter the conda environment
+# arg1: event file path, arg2: output file name
+$ cd program/DSEC/
+$ python ./DSEC/scripts/events_to_video.py ./thun_00_a/thun_00_a_events_left/events.h5 ./thun_00_a_event.mp4   
+$ conda deactivate      #out the conda environment
+```
+
+### yaml重新排版
+* 使用yamllint檢查YAML格式
+yamllint 是專門用於檢查 YAML 文件結構和縮排的工具
+1. 安裝yamllint
+```
+$ sudo apt update
+$ sudo apt install yamllint
+```
+2. 檢查 YAML 文件格式
+使用以下命令檢查你的 cam_to_cam.yaml 文件是否有縮排或語法錯誤:
+```
+$ yamllint cam_to_cam.yaml
+```
+3. 安裝 Node.js LTS (最新穩定版)
+```
+#添加 Node.js 官方倉庫:
+$ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+
+#安裝 Node.js:
+$ sudo apt-get install -y nodejs
+
+#驗證 Node.js 版本 (應該是 18.x 以上):
+$ node -v
+```
+4. 重新安裝 prettier
+確保已安裝 npm (Node.js 包管理工具):
+```
+$ sudo apt-get install npm
+```
+
+使用 npm 安裝或更新 prettier:
+```
+$ sudo npm install -g prettier
+```
+
+確認 prettier 安裝成功:
+```
+$ prettier --version
+```
+5. 格式化 YAML 文件
+執行以下命令來自動修復縮排和語法錯誤:
+```
+$ prettier --write cam_to_cam.yaml
+```
+6. 最後於yaml檔開頭補上yaml格式宣告
+```
+%YAML:1.0
+---
+```
+**這將會覆蓋原有文件並修復所有的縮排問題**
+
+reference:
+[1]Real-time event simulation with frame-based cameras https://github.com/cogsys-tuebingen/event_simulator.git
+[2]DSEC: A Stereo Event Camera Dataset for Driving Scenarios https://dsec.ifi.uzh.ch/ https://github.com/uzh-rpg/DSEC/tree/main
